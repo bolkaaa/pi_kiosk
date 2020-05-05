@@ -11,6 +11,8 @@
     <div id="ytbg" style="display:none;"></div>
 </div>
 <script type="text/javascript">
+var playlist = [];
+var current = -1;
 function ytParseVideoId(url){
     var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
     var match = url.match(regExp);
@@ -34,7 +36,7 @@ function playNext() {
         $('video')[0].load();
         $('video')[0].play();
         $('video').fadeIn(500);
-        canvas.find('video').bind("ended", function() {
+        $('#canvas').find('video').bind("ended", function() {
             $('video').fadeOut(500);    
             setTimeout(function(){playNext()}, 500);
         });
@@ -63,9 +65,6 @@ function playNext() {
       }
     }
 }
-var playlist = [];
-var canvas = $('#canvas');
-var current = -1;
 $(document).ready(function() {
     $.get('../playlist', function(data) {
         var ret = [];    
