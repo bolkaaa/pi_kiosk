@@ -13,6 +13,7 @@
 <script type="text/javascript">
 var playlist = [];
 var current = -1;
+var fadetime = 500;
 function ytParseVideoId(url){
     var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
     var match = url.match(regExp);
@@ -28,22 +29,22 @@ function playNext() {
     var duration = playlist[current].i;
     if ('image' == type) {
         $('img').attr('src', file);
-        $('img').fadeIn(500);             
-        setTimeout(function() { $('img').fadeOut(500); setTimeout(function(){playNext()}, 500) }, duration * 1000);              
+        $('img').fadeIn(fadetime);             
+        setTimeout(function() { $('img').fadeOut(fadetime); setTimeout(function(){playNext()}, fadetime) }, duration * 1000);              
     }
     if ('video' == type) {
         $('video')[0].src = file;
         $('video')[0].load();
         $('video')[0].play();
-        $('video').fadeIn(500);
+        $('video').fadeIn(fadetime);
         $('#canvas').find('video').bind("ended", function() {
-            $('video').fadeOut(500);    
-            setTimeout(function(){playNext()}, 500);
+            $('video').fadeOut(fadetime);    
+            setTimeout(function(){playNext()}, fadetime);
         });
     }
     if ('url' == type) {
       if (window.navigator.onLine == true) {  
-          $('#ytbg').fadeIn(500);
+          $('#ytbg').fadeIn(fadetime);
           $('#ytbg').YTPlayer({
              fitToBackground: true,
              repeat: false,
@@ -51,11 +52,11 @@ function playNext() {
              events: { 
                 'onStateChange': function(e) {
                       if (e.data === 0) {
-                            $('#ytbg').fadeOut(500);
+                            $('#ytbg').fadeOut(fadetime);
                             setTimeout(function() {   
                                 $('#ytbg').data('ytPlayer').player.destroy();
                                 playNext();
-                            }, 500);
+                            }, fadetime);
                       } 
                  }
              }
