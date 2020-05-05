@@ -21,7 +21,6 @@ function playNext() {
     if (playlist.length == current) {
         current = 0;
     }
-    var source = null;
     var file = "../media/" + playlist[current].file;
     var type = playlist[current].type;
     var duration = playlist[current].i;
@@ -51,7 +50,6 @@ function playNext() {
                 'onStateChange': function(e) {
                       if (e.data === 0) {
                             $('#ytbg').fadeOut(500);
-
                             setTimeout(function() {   
                                 $('#ytbg').data('ytPlayer').player.destroy();
                                 playNext();
