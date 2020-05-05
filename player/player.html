@@ -1,0 +1,86 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="player.css">
+    <script src="jquery-3.5.1.min.js"></script>
+    <script src="jquery.youtubebackground.js"></script>
+</head>
+<body>
+<div id="canvas" class="canvas">
+    <img src="" style="display:none;">
+    <video style="display:none"><source src="" type="video/mp4"></source></video>
+    <div id="ytbg" style="display:none;"></div>
+</div>
+<script type="text/javascript">
+function ytParseVideoId(url){
+    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+    var match = url.match(regExp);
+    return (match&&match[7].length==11)? match[7] : false;
+}
+function playNext() {
+    ++current;
+    if (playlist.length == current) {
+        current = 0;
+    }
+    var source = null;
+    var file = "../media/" + playlist[current].file;
+    var type = playlist[current].type;
+    var duration = playlist[current].i;
+    if ('image' == type) {
+        $('img').attr('src', file);
+        $('img').fadeIn(500);             
+        setTimeout(function() { $('img').fadeOut(500); setTimeout(function(){playNext()}, 500) }, duration * 1000);              
+    }
+    if ('video' == type) {
+        $('video')[0].src = file;
+        $('video')[0].load();
+        $('video')[0].play();
+        $('video').fadeIn(500);
+        canvas.find('video').bind("ended", function() {
+            $('video').fadeOut(500);    
+            setTimeout(function(){playNext()}, 500);
+        });
+    }
+    if ('url' == type) {
+      if (window.navigator.onLine == true) {  
+          $('#ytbg').fadeIn(500);
+          $('#ytbg').YTPlayer({
+             fitToBackground: true,
+             repeat: false,
+             videoId: ytParseVideoId(file),
+             events: { 
+                'onStateChange': function(e) {
+                      if (e.data === 0) {
+                            $('#ytbg').fadeOut(500);
+
+                            setTimeout(function() {   
+                                $('#ytbg').data('ytPlayer').player.destroy();
+                                playNext();
+                            }, 500);
+                      } 
+                 }
+             }
+          });
+      } else {
+          playNext();
+      }
+    }
+}
+var playlist = [];
+var canvas = $('#canvas');
+var current = -1;
+$(document).ready(function() {
+    $.get('../playlist', function(data) {
+        var ret = [];    
+        var lines = data.split("\n");
+        $.each(lines, function(n, line) {
+           ret = line.split('@');
+           if (ret[0]) {
+                playlist.push({'file': ret[0], 'type': ret[1], 'i': ret[2]});
+           } 
+        });
+        playNext();  
+    });
+});
+</script>
+</body>
+</html>
