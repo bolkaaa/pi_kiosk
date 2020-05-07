@@ -23,11 +23,13 @@ div.canvas > img {
 }
 img {
    width: 100%; 
-   height: auto;
+   height: 100%;
+   object-fit: contain;
 }
 video {
    width: 100%; 
-   height: auto;
+   height: 100%;
+   object-fit: contain;
 }     
 #ytbg {
  position: relative;
