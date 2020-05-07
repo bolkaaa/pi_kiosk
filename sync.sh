@@ -1,5 +1,10 @@
 #!/bin/bash
 
+cd /home/pi/pi_kiosk
+sudo git fetch --all
+sudo git reset --hard origin/master
+sudo git pull origin master
+
 if [ -e .uri ]; then
   REMOTE_URI=$(cat .uri)
   HOME_FOLDER="/home/pi/pi_kiosk"
