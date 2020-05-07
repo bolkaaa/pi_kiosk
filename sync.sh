@@ -17,6 +17,8 @@ if [ -e .uri ]; then
   rsync -avz -L -e "${SSH_ARGS}" ${REMOTE_URI}/uploads/ ${HOME_FOLDER}/media/
   if rsync --stats -avz -e "${SSH_ARGS}" --rsync-path="rm -f ${LOG_FILE} && rsync --log-file=${LOG_FILE}" ${REMOTE_URI}/playlist ${HOME_FOLDER}/playlist | grep -q "Number of regular files transferred: 1"; then
     echo "NEW PLAYLIST!!!"
+    export DISPLAY=:0
+    export XAUTHORITY=~/.Xauthority
     WID=$(xdotool search --onlyvisible --class chromium|head -1)
     xdotool windowactivate ${WID}
     xdotool key ctrl+F5
