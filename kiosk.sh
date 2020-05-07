@@ -1,5 +1,8 @@
 #!/bin/bash
 
+export DISPLAY=:0
+export XAUTHORITY=~/.Xauthority
+
 xset -dpms       # Turn off dpms blanking until next boot
 xset s activate  # Force screen blank
 xset s 1
