@@ -1,5 +1,4 @@
 #!/bin/bash
-# run chromium in kiosk mode
 
 xset s noblank
 xset s off
