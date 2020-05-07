@@ -14,7 +14,6 @@
 var playlist = [];
 var current = -1;
 var fadetime = 500;
-var prev_file = "";
 function ytParseVideoId(url){
     var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
     var match = url.match(regExp);
@@ -29,12 +28,11 @@ function playNext() {
     var type = playlist[current].type;
     var duration = playlist[current].i;
     if ('image' == type) {
-        if (prev_file != file) {
-            $('img').attr('src', file);
-            $('img').fadeIn(fadetime);             
-            setTimeout(function() { $('img').fadeOut(fadetime); setTimeout(function(){playNext()}, fadetime) }, duration * 1000);
-            prev_file = file;        
-        }              
+        $('img').attr('src', file);
+        $('img').fadeIn(fadetime);   
+        if (playlist.length > 1) {          
+            setTimeout(function() { $('img').fadeOut(fadetime); setTimeout(function(){playNext()}, fadetime) }, duration * 1000);  
+        }   
     }
     if ('video' == type) {
         $('video')[0].src = file;
