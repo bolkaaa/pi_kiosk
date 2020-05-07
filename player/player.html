@@ -14,6 +14,7 @@
 var playlist = [];
 var current = -1;
 var fadetime = 500;
+var prev_file = "";
 function ytParseVideoId(url){
     var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
     var match = url.match(regExp);
@@ -25,7 +26,6 @@ function playNext() {
         current = 0;
     }
     var file = "../media/" + playlist[current].file;
-    var prev_file = "";
     var type = playlist[current].type;
     var duration = playlist[current].i;
     if ('image' == type) {
