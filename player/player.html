@@ -25,12 +25,16 @@ function playNext() {
         current = 0;
     }
     var file = "../media/" + playlist[current].file;
+    var prev_file = "";
     var type = playlist[current].type;
     var duration = playlist[current].i;
     if ('image' == type) {
-        $('img').attr('src', file);
-        $('img').fadeIn(fadetime);             
-        setTimeout(function() { $('img').fadeOut(fadetime); setTimeout(function(){playNext()}, fadetime) }, duration * 1000);              
+        if (prev_file != file) {
+            $('img').attr('src', file);
+            $('img').fadeIn(fadetime);             
+            setTimeout(function() { $('img').fadeOut(fadetime); setTimeout(function(){playNext()}, fadetime) }, duration * 1000);
+            prev_file = file;        
+        }              
     }
     if ('video' == type) {
         $('video')[0].src = file;
