@@ -14,6 +14,7 @@
 var playlist = [];
 var current = -1;
 var fadetime = 500;
+var timer = null;
 function ytParseVideoId(url){
     var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
     var match = url.match(regExp);
@@ -32,11 +33,15 @@ function playNext() {
     console.log("file: " + file);
     console.log("dur: " + duration * 1000);  
 
+    if (timer != null) {
+        clearTimeout(timer);
+    }
+
     if ('image' == type) {
         $('img').attr('src', file);
         $('img').fadeIn(fadetime);   
         if (playlist.length > 1) {          
-            setTimeout(function() { $('img').fadeOut(fadetime); setTimeout(function(){playNext()}, fadetime) }, duration * 1000);  
+            timer = setTimeout(function() { $('img').fadeOut(fadetime); setTimeout(function(){playNext()}, fadetime) }, duration * 1000);  
         }   
     }
     if ('video' == type) {
@@ -46,7 +51,7 @@ function playNext() {
         $('video').fadeIn(fadetime);
         $('#canvas').find('video').bind("ended", function() {
             $('video').fadeOut(fadetime);    
-            setTimeout(function(){playNext()}, fadetime);
+            timer = setTimeout(function(){playNext()}, fadetime);
         });
     }
     if ('url' == type) {
@@ -60,7 +65,7 @@ function playNext() {
                 'onStateChange': function(e) {
                       if (e.data === 0) {
                             $('#ytbg').fadeOut(fadetime);
-                            setTimeout(function() {   
+                            timer = setTimeout(function() {   
                                 $('#ytbg').data('ytPlayer').player.destroy();
                                 playNext();
                             }, fadetime);
