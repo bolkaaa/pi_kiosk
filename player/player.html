@@ -15,6 +15,7 @@ var playlist = [];
 var current = -1;
 var fadetime = 500;
 var timer = null;
+
 function ytParseVideoId(url){
     var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
     var match = url.match(regExp);
