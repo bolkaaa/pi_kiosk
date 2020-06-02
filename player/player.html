@@ -55,7 +55,7 @@ function playNext() {
         $('video').fadeIn(fadetime);
         $('#canvas').find('video').bind("ended", function() {
             $('video').fadeOut(fadetime);    
-            timer = setTimeout(function(){playNext()}, fadetime);
+            fadetimer = setTimeout(function(){playNext()}, fadetime);
         });
     }
     if ('url' == type) {
@@ -69,7 +69,7 @@ function playNext() {
                 'onStateChange': function(e) {
                       if (e.data === 0) {
                             $('#ytbg').fadeOut(fadetime);
-                            timer = setTimeout(function() {   
+                            fadetimer = setTimeout(function() {   
                                 $('#ytbg').data('ytPlayer').player.destroy();
                                 playNext();
                             }, fadetime);
