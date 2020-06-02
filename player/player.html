@@ -64,7 +64,7 @@ function playNext() {
         $('video').fadeIn(fadetime);
         $('video').bind("ended", function() {
             $('video').fadeOut(fadetime);
-            $('video').unbind('ended');  
+            $('video').unbind("ended");  
             fadetimer = setTimeout(function(){
                 playNext();
             }, fadetime);
