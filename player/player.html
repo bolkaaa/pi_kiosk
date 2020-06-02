@@ -13,7 +13,7 @@
 <script type="text/javascript">
 var playlist = [];
 var current = -1;
-var fadetime = 250;
+var fadetime = 500;
 var timer = null;
 var fadetimer = null;
 
@@ -30,6 +30,10 @@ function playNext() {
     var file = "../media/" + playlist[current].file;
     var type = playlist[current].type;
     var duration = playlist[current].i;
+
+    //console.log("i: " + current);
+    //console.log("file: " + file);    
+    //console.log("duration: " + duration);
 
     if (timer != null) {
         clearTimeout(timer);
@@ -58,8 +62,9 @@ function playNext() {
         $('video')[0].load();
         $('video')[0].play();
         $('video').fadeIn(fadetime);
-        $('#canvas').find('video').bind("ended", function() {
-            $('video').fadeOut(fadetime);    
+        $('video').bind("ended", function() {
+            $('video').fadeOut(fadetime);
+            $('video').unbind('ended');  
             fadetimer = setTimeout(function(){
                 playNext();
             }, fadetime);
