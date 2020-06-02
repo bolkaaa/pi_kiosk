@@ -45,7 +45,12 @@ function playNext() {
         $('img').attr('src', file);
         $('img').fadeIn(fadetime);   
         if (playlist.length > 1) {          
-            timer = setTimeout(function() { $('img').fadeOut(fadetime); fadetimer = setTimeout(function(){playNext()}, fadetime) }, duration * 1000);  
+            timer = setTimeout(function() { 
+                $('img').fadeOut(fadetime); 
+                fadetimer = setTimeout(function(){ 
+                    playNext(); 
+                }, fadetime); 
+            }, duration * 1000);  
         }   
     }
     if ('video' == type) {
@@ -55,7 +60,9 @@ function playNext() {
         $('video').fadeIn(fadetime);
         $('#canvas').find('video').bind("ended", function() {
             $('video').fadeOut(fadetime);    
-            fadetimer = setTimeout(function(){playNext()}, fadetime);
+            fadetimer = setTimeout(function(){
+                playNext();
+            }, fadetime);
         });
     }
     if ('url' == type) {
